@@ -35,6 +35,7 @@ A Django application with user login functionality and a modern front-end interf
    - Login page: http://127.0.0.1:8000/login/
    - Home page: http://127.0.0.1:8000/ (requires login)
    - Admin panel: http://127.0.0.1:8000/admin/ (requires superuser)
+    - Production example: https://procrastinators.onrender.com
 
 ## Use PostgreSQL Instead of SQLite
 
@@ -82,6 +83,47 @@ python manage.py loaddata data.json
 Notes:
 - Ensure your Postgres database exists and your user has privileges.
 - If you see integrity errors while loading, try loading only the `auth` and `contenttypes` apps first, or exclude content types from the dump. In many cases the full dump works fine with `--natural-*` flags.
+
+## Deploying on Render
+
+The project is configured for deployment on Render with the following:
+
+### Configuration Files
+- **`Procfile`**: Defines the web server command using Gunicorn
+- **`render.yaml`**: Optional configuration file for Render (can be used for automatic setup)
+
+### Environment Variables to Set in Render Dashboard
+
+**Required:**
+- `SECRET_KEY`: A secure random string (Render can generate this automatically)
+- `DJANGO_DEBUG`: Set to `False` for production
+- `DATABASE_URL`: Automatically set if you connect your Postgres database in Render
+  - OR set individual Postgres variables:
+    - `POSTGRES_DB`
+    - `POSTGRES_USER`
+    - `POSTGRES_PASSWORD`
+    - `POSTGRES_HOST`
+    - `POSTGRES_PORT` (default: 5432)
+
+### Deployment Steps
+
+1. **Connect your repository** to Render
+2. **Create a new Web Service** and select your repository
+3. **Set environment variables** in the Render dashboard:
+   - `SECRET_KEY`: Generate a secure key (or let Render generate it)
+   - `DJANGO_DEBUG`: `False`
+   - Connect your Postgres database (this will auto-set `DATABASE_URL`)
+4. **Build Command**: `pip install -r requirements.txt && python manage.py collectstatic --noinput`
+5. **Start Command**: `gunicorn procrast_local.wsgi:application`
+6. **Run migrations** after first deployment:
+   - Use Render's shell: `python manage.py migrate`
+   - Or add to build command: `pip install -r requirements.txt && python manage.py collectstatic --noinput && python manage.py migrate`
+
+### Notes
+- `ALLOWED_HOSTS` already includes `procrastinators.onrender.com`
+- `CSRF_TRUSTED_ORIGINS` includes `https://procrastinators.onrender.com`
+- Static files are handled by WhiteNoise middleware
+- The app will automatically use `DATABASE_URL` if available, or fall back to individual Postgres variables
 
 ## Creating Test Users
 
