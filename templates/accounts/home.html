@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - Procrast Local{% endblock %}
+
+{% block extra_css %}
+<style>
+    .welcome-section {
+        text-align: center;
+        padding: 20px 0;
+    }
+    
+    .welcome-section h2 {
+        color: #333;
+        margin-bottom: 10px;
+        font-size: 24px;
+    }
+    
+    .welcome-section p {
+        color: #666;
+        margin-bottom: 30px;
+    }
+    
+    .user-info {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+    
+    .user-info p {
+        margin: 8px 0;
+        color: #555;
+    }
+    
+    .user-info strong {
+        color: #333;
+    }
+    
+    .btn-secondary {
+        background: #6c757d;
+    }
+    
+    .btn-secondary:hover {
+        box-shadow: 0 5px 15px rgba(108, 117, 125, 0.4);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="welcome-section">
+    <h2>Hello, {{ user.username }}! 👋</h2>
+    <p>You have successfully logged in.</p>
+</div>
+
+<div class="user-info">
+    <p><strong>Username:</strong> {{ user.username }}</p>
+    <p><strong>Email:</strong> {{ user.email|default:"Not provided" }}</p>
+    <p><strong>Last Login:</strong> {{ user.last_login|date:"F d, Y H:i"|default:"First time login" }}</p>
+</div>
+
+<form method="post" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-secondary">Logout</button>
+</form>
+{% endblock %}
+
