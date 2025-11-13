@@ -26,4 +26,3 @@ Attendees:
 
 ## What to improve
 - Solve configuration issues to properly create GitHub branches. Action: Dev team to replicate the repo locally and tested synchronization.
-- Coordinate and planne the first round of testing. Action: The whole team is to build the test plan in the next meeting.
