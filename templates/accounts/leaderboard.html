@@ -1,0 +1,209 @@
+{% extends 'base.html' %}
+
+{% block title %}Leaderboard - Procrast Local{% endblock %}
+
+{% block extra_css %}
+<style>
+    .leaderboard-container {
+        overflow-x: auto;
+    }
+    
+    h2 {
+        color: #333;
+        margin-bottom: 30px;
+        text-align: center;
+        font-size: 24px;
+    }
+    
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    thead {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+    
+    th {
+        padding: 15px;
+        text-align: left;
+        font-weight: 600;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    td {
+        padding: 15px;
+        border-bottom: 1px solid #e0e0e0;
+        color: #555;
+    }
+    
+    tbody tr:hover {
+        background: #f8f9fa;
+    }
+    
+    tbody tr:last-child td {
+        border-bottom: none;
+    }
+    
+    .rank {
+        font-weight: 600;
+        color: #667eea;
+        font-size: 18px;
+        text-align: center;
+        width: 60px;
+    }
+    
+    .rank.gold {
+        color: #ffd700;
+    }
+    
+    .rank.silver {
+        color: #c0c0c0;
+    }
+    
+    .rank.bronze {
+        color: #cd7f32;
+    }
+    
+    .post-title {
+        font-weight: 600;
+        color: #333;
+    }
+    
+    .post-author {
+        color: #667eea;
+        font-size: 14px;
+    }
+    
+    .like-count {
+        font-weight: 600;
+        color: #dc3545;
+        font-size: 16px;
+        text-align: center;
+    }
+    
+    .hours {
+        color: #764ba2;
+        font-weight: 500;
+    }
+    
+    .date {
+        color: #999;
+        font-size: 12px;
+    }
+    
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        color: #666;
+    }
+    
+    .empty-state h3 {
+        color: #333;
+        margin-bottom: 10px;
+    }
+    
+    .filter-buttons {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .filter-btn {
+        padding: 10px 20px;
+        background: #f0f0f0;
+        color: #666;
+        border: 2px solid #e0e0e0;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s;
+        cursor: pointer;
+    }
+    
+    .filter-btn:hover {
+        background: #e0e0e0;
+        border-color: #667eea;
+    }
+    
+    .filter-btn.active {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-color: #667eea;
+    }
+    
+    .dislike-count {
+        font-weight: 600;
+        color: #dc3545;
+        font-size: 16px;
+        text-align: center;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="leaderboard-container">
+    <h2>🏆 Leaderboard</h2>
+    
+    <div class="filter-buttons">
+        <a href="?sort=likes" class="filter-btn {% if current_sort == 'likes' %}active{% endif %}">Sort by Likes</a>
+        <a href="?sort=dislikes" class="filter-btn {% if current_sort == 'dislikes' %}active{% endif %}">Sort by Dislikes</a>
+        <a href="?sort=time" class="filter-btn {% if current_sort == 'time' %}active{% endif %}">Sort by Time</a>
+    </div>
+    
+    {% if posts %}
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 60px; text-align: center;">Rank</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th style="text-align: center;">Likes</th>
+                <th style="text-align: center;">Dislikes</th>
+                <th style="text-align: center;">Hours</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for post in posts %}
+            <tr>
+                <td class="rank {% if forloop.counter == 1 %}gold{% elif forloop.counter == 2 %}silver{% elif forloop.counter == 3 %}bronze{% endif %}">
+                    {% if forloop.counter == 1 %}🥇
+                    {% elif forloop.counter == 2 %}🥈
+                    {% elif forloop.counter == 3 %}🥉
+                    {% else %}{{ forloop.counter }}{% endif %}
+                </td>
+                <td>
+                    <div class="post-title">{{ post.title }}</div>
+                    <div style="font-size: 12px; color: #999; margin-top: 5px;">{{ post.description|truncatewords:15 }}</div>
+                </td>
+                <td>
+                    <span class="post-author">@{{ post.author.username }}</span>
+                </td>
+                <td class="like-count">{{ post.like_count }}</td>
+                <td class="dislike-count">{{ post.dislike_count }}</td>
+                <td class="hours" style="text-align: center;">{{ post.hours_procrastinated }}</td>
+                <td class="date">{{ post.created_at|date:"M d, Y" }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="empty-state">
+        <h3>No posts yet</h3>
+        <p>Be the first to share your procrastination story!</p>
+        <a href="{% url 'create_post' %}" class="btn" style="margin-top: 20px; display: inline-block; width: auto; padding: 12px 24px;">Create Post</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+

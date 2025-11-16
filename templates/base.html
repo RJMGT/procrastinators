@@ -73,6 +73,7 @@
         }
         
         input[type="text"],
+        input[type="email"],
         input[type="password"] {
             width: 100%;
             padding: 12px 16px;
@@ -83,6 +84,7 @@
         }
         
         input[type="text"]:focus,
+        input[type="email"]:focus,
         input[type="password"]:focus {
             outline: none;
             border-color: #667eea;
@@ -124,11 +126,102 @@
         .link a:hover {
             text-decoration: underline;
         }
+        
+        /* Navigation tabs for authenticated users */
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 10px;
+        }
+        
+        .nav-tab {
+            padding: 10px 20px;
+            text-decoration: none;
+            color: #666;
+            font-weight: 500;
+            border-radius: 6px 6px 0 0;
+            transition: all 0.3s;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .nav-tab:hover {
+            background: #f0f0f0;
+            color: #667eea;
+        }
+        
+        .nav-tab.active {
+            color: #667eea;
+            background: #f0f0f0;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        .nav-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .user-info-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .user-info-header span {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .logout-btn {
+            padding: 8px 16px;
+            background: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .logout-btn:hover {
+            background: #5a6268;
+        }
+        
+        /* Wider container for authenticated pages */
+        .container.authenticated {
+            max-width: 800px;
+        }
     </style>
     {% block extra_css %}{% endblock %}
 </head>
 <body>
-    <div class="container">
+    <div class="container {% if user.is_authenticated %}authenticated{% endif %}">
+        {% if user.is_authenticated %}
+        <div class="nav-header">
+            <div class="user-info-header">
+                <span>Welcome, <strong>{{ user.username }}</strong></span>
+            </div>
+            <form method="post" action="{% url 'logout' %}" style="margin: 0;">
+                {% csrf_token %}
+                <button type="submit" class="logout-btn">Logout</button>
+            </form>
+        </div>
+        
+        <div class="nav-tabs">
+            <a href="{% url 'home' %}" class="nav-tab {% if active_tab == 'home' %}active{% endif %}">Home Feed</a>
+            <a href="{% url 'create_post' %}" class="nav-tab {% if active_tab == 'create' %}active{% endif %}">Create Post</a>
+            <a href="{% url 'leaderboard' %}" class="nav-tab {% if active_tab == 'leaderboard' %}active{% endif %}">Post Leaderboard</a>
+            <a href="{% url 'user_leaderboard' %}" class="nav-tab {% if active_tab == 'user_leaderboard' %}active{% endif %}">User Leaderboard</a>
+        </div>
+        {% endif %}
+        
         {% if messages %}
             <div class="messages">
                 {% for message in messages %}
