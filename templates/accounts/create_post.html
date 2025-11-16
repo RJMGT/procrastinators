@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+
+{% block title %}Create Post - Procrast Local{% endblock %}
+
+{% block extra_css %}
+<style>
+    .form-container {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    
+    h2 {
+        color: #333;
+        margin-bottom: 30px;
+        text-align: center;
+        font-size: 24px;
+    }
+    
+    .form-group {
+        margin-bottom: 20px;
+    }
+    
+    label {
+        display: block;
+        margin-bottom: 8px;
+        color: #555;
+        font-weight: 500;
+        font-size: 14px;
+    }
+    
+    input[type="text"],
+    input[type="number"],
+    textarea {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid #e0e0e0;
+        border-radius: 6px;
+        font-size: 16px;
+        transition: border-color 0.3s;
+        font-family: inherit;
+    }
+    
+    textarea {
+        min-height: 150px;
+        resize: vertical;
+    }
+    
+    input[type="text"]:focus,
+    input[type="number"]:focus,
+    textarea:focus {
+        outline: none;
+        border-color: #667eea;
+    }
+    
+    .btn {
+        width: 100%;
+        padding: 12px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    }
+    
+    .btn:active {
+        transform: translateY(0);
+    }
+    
+    .help-text {
+        font-size: 12px;
+        color: #666;
+        margin-top: 5px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Share Your Procrastination Story</h2>
+    
+    <form method="post" action="{% url 'create_post' %}">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="title">Title *</label>
+            <input type="text" id="title" name="title" required autofocus placeholder="e.g., Spent 5 hours watching cat videos">
+        </div>
+        
+        <div class="form-group">
+            <label for="description">Description *</label>
+            <textarea id="description" name="description" required placeholder="Tell us about your procrastination experience..."></textarea>
+        </div>
+        
+        <div class="form-group">
+            <label for="hours_procrastinated">Hours Procrastinated *</label>
+            <input type="number" id="hours_procrastinated" name="hours_procrastinated" required step="0.1" min="0" placeholder="e.g., 3.5">
+            <div class="help-text">Enter the number of hours you procrastinated (can be a decimal)</div>
+        </div>
+        
+        <button type="submit" class="btn">Create Post</button>
+    </form>
+</div>
+{% endblock %}
+

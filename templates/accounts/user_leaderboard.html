@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+
+{% block title %}User Leaderboard - Procrast Local{% endblock %}
+
+{% block extra_css %}
+<style>
+    .leaderboard-container {
+        overflow-x: auto;
+    }
+    
+    h2 {
+        color: #333;
+        margin-bottom: 30px;
+        text-align: center;
+        font-size: 24px;
+    }
+    
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    thead {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+    
+    th {
+        padding: 15px;
+        text-align: left;
+        font-weight: 600;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    td {
+        padding: 15px;
+        border-bottom: 1px solid #e0e0e0;
+        color: #555;
+    }
+    
+    tbody tr:hover {
+        background: #f8f9fa;
+    }
+    
+    tbody tr:last-child td {
+        border-bottom: none;
+    }
+    
+    .rank {
+        font-weight: 600;
+        color: #667eea;
+        font-size: 18px;
+        text-align: center;
+        width: 60px;
+    }
+    
+    .rank.gold {
+        color: #ffd700;
+    }
+    
+    .rank.silver {
+        color: #c0c0c0;
+    }
+    
+    .rank.bronze {
+        color: #cd7f32;
+    }
+    
+    .username {
+        font-weight: 600;
+        color: #667eea;
+        font-size: 16px;
+    }
+    
+    .total-hours {
+        font-weight: 600;
+        color: #764ba2;
+        font-size: 18px;
+        text-align: center;
+    }
+    
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        color: #666;
+    }
+    
+    .empty-state h3 {
+        color: #333;
+        margin-bottom: 10px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="leaderboard-container">
+    <h2>👥 User Leaderboard - Total Hours Procrastinated</h2>
+    
+    {% if users %}
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 60px; text-align: center;">Rank</th>
+                <th>Username</th>
+                <th style="text-align: center;">Total Hours</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td class="rank {% if forloop.counter == 1 %}gold{% elif forloop.counter == 2 %}silver{% elif forloop.counter == 3 %}bronze{% endif %}">
+                    {% if forloop.counter == 1 %}🥇
+                    {% elif forloop.counter == 2 %}🥈
+                    {% elif forloop.counter == 3 %}🥉
+                    {% else %}{{ forloop.counter }}{% endif %}
+                </td>
+                <td>
+                    <span class="username">@{{ user.username }}</span>
+                </td>
+                <td class="total-hours">{{ user.total_hours|floatformat:2 }}</td>
+                <td>{{ user.email|default:"Not provided" }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="empty-state">
+        <h3>No users yet</h3>
+        <p>Start procrastinating to appear on the leaderboard!</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
