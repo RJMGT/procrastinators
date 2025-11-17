@@ -23,10 +23,12 @@ ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
     'procrastinators.onrender.com',
+    'procrastinators-stage.onrender.com',
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     'https://procrastinators.onrender.com',
+    'procrastinators-stage.onrender.com',
 ]
 
 
