@@ -46,3 +46,6 @@
 
 ---
 
+## 🔧 What to Improve
+- Standardize local development setup by using a shared `.env.example` file to prevent recurring environment variable mistakes.  
+- Increase team communication through short daily check-ins and clearer task ownership to avoid duplication and delays.
