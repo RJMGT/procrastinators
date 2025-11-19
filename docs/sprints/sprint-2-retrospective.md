@@ -26,3 +26,7 @@ Attendees:
 
 ## What to improve
 - Solve configuration issues to properly create GitHub branches. Action: Dev team to replicate the repo locally and tested synchronization.
+
+## 🔧 What to Improve
+- Standardize local development setup by using a shared `.env.example` file to prevent recurring environment variable mistakes.  
+- Increase team communication through short daily check-ins and clearer task ownership to avoid duplication and delays.
