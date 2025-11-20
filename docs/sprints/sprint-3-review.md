@@ -3,7 +3,7 @@
 ### Sprint Goal and Whether Achieved
 Our goal for Sprint 3 was to deliver an end-to-end user journey that supports basic user-generated content. This included creating a post, updating the home feed in real time, enabling simple engagement actions such as like or dislike, and presenting user and post leaderboards.
 
-✅ The sprint goal was achieved. All core functionality for a minimum viable product (MVP) was completed and deployed to the staging environment.
+The sprint goal was achieved. All core functionality for a minimum viable product (MVP) was completed and deployed to the staging environment.
 
 ---
 
@@ -52,7 +52,7 @@ Live Demo: [Staging URL](https://procrastinators-stage.onrender.com/)
 
 - **Planned vs Completed Story Points:**  
   Planned: 21 pts  
-  Completed: 21 pts ✅
+  Completed: 21 pts
 
 - **Velocity for Sprint 3:**  
   21 story points
