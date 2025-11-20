@@ -1,51 +1,29 @@
-# Sprint 3 Retrospective
+## Sprint 3 Retrospective
 
-**Date:** Nov-24  
-
-## Attendees
-- Rohan Johar  
-- Aniket Aggrawal  
-- Aditi Jain  
-- Gerald Velasquez  
-
----
-
-## ✅ What Went Well
-- The newly implemented sign-up workflow (email, username, password) works end-to-end, including validation and PostgreSQL data storage.
+### What Went Well
+- The new sign-up workflow (email, username, password) worked end-to-end, including validation and PostgreSQL data storage.
 - The app continued running smoothly on Render with no downtime during the sprint.
 - Core Sprint 3 features (logging procrastination updates, leaderboard categories, and UI enhancements) made measurable progress.
 - The AI-assisted workflow (Cursor) accelerated UI development and reduced manual boilerplate.
 - Improvements to the onboarding and login screens enhanced the user experience.
 
----
+### What Didn’t Go Well
+- Environment variable confusion during local testing caused the app to connect to the production database on Render, leading to unintended writes.
+- The like/dislike interaction was buggy: buttons showed delayed toggle, and UI often failed to update immediately despite backend state changing.
+- Communication dropped compared to Sprint 2, with unclear division of backend vs frontend responsibilities, leading to duplicated or untouched tasks.
+- The authentication flow revisions took longer than expected due to edge case validation errors and buggy AI-generated redirect logic.
 
-## ❌ What Didn’t Go Well
+### What to Improve
+- **Standardize development environments**: Use a shared `.env.example` file and clear onboarding steps for all team members to avoid misconfiguration.
+- **Clarify ownership and increase check-ins**: Implement daily check-ins or brief async updates and assign explicit owners to user stories during sprint planning.
 
-### 1. Environment Variable Confusion (Recurring Issue)
-- Team members repeatedly forgot to configure required environment variables during local testing.
-- Django defaulted to the production PostgreSQL database on Render, causing accidental writes to the live DB.
-- Resulted in slower development and inconsistent test results.
+### Action Items
+| Action Item | Owner | Deadline |
+|------------|--------|----------|
+| Create and maintain a shared `.env.example` file | Aniket | Start of Sprint 4 |
+| Assign clear owners during sprint planning and track updates in GitHub project board | Aditi | Sprint 4 Planning |
+| Schedule async check-ins via Slack | Gerald | Ongoing during Sprint 4 |
+| Investigate and fix like/dislike UI refresh issue | Rohan | Mid-Sprint 4 |
 
-### 2. Like/Dislike Interaction Bug
-- The like/dislike buttons were expected to toggle after one click, but:
-  - They switch states with noticeable delay.  
-  - The UI does not always update immediately.  
-  - Backend updates occur, but the frontend sometimes fails to refresh the state.
-
-### 3. Reduced Communication + Unclear Responsibilities
-- Lower team communication compared to Sprint 2.
-- Unclear division of responsibilities between backend and UI tasks.
-- Some work was duplicated, while other tickets remained untouched longer than planned.
-
-### 4. Authentication Workflow Revisions Took Longer Than Expected
-- AI-generated signup/login components required multiple debugging cycles.
-- Issues encountered:
-  - Form validation edge cases.
-  - Incorrect redirects during testing.
-- The effort to refine AI-generated code was underestimated.
-
----
-
-## 🔧 What to Improve
-- Standardize local development setup by using a shared `.env.example` file to prevent recurring environment variable mistakes.  
-- Increase team communication through short daily check-ins and clearer task ownership to avoid duplication and delays.
+### Team Dynamics Reflection
+The team continues to make strong progress toward core features, but Sprint 3 surfaced challenges in cross-functional communication and clarity around responsibilities. With clear task ownership, shared environment setup, and slightly tighter coordination, the team is well-positioned to increase velocity and reduce duplicated effort going forward.
