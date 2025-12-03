@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Post, Like, Dislike
+from .models import Post, Like, Dislike, ABTestPageView, ABTestButtonClick
 
 
 @admin.register(Post)
@@ -30,4 +30,22 @@ class DislikeAdmin(admin.ModelAdmin):
     list_display = ['user', 'post', 'created_at']
     list_filter = ['created_at']
     search_fields = ['user__username', 'post__title']
+
+
+@admin.register(ABTestPageView)
+class ABTestPageViewAdmin(admin.ModelAdmin):
+    list_display = ['variant', 'ip_address', 'created_at']
+    list_filter = ['variant', 'created_at']
+    search_fields = ['ip_address']
+    readonly_fields = ['created_at']
+    date_hierarchy = 'created_at'
+
+
+@admin.register(ABTestButtonClick)
+class ABTestButtonClickAdmin(admin.ModelAdmin):
+    list_display = ['variant', 'ip_address', 'created_at']
+    list_filter = ['variant', 'created_at']
+    search_fields = ['ip_address']
+    readonly_fields = ['created_at']
+    date_hierarchy = 'created_at'
 
