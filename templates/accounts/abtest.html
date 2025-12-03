@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}A/B Test{% endblock %}
+
+{% block content %}
+<div style="text-align: center; padding: 40px 20px;">
+    <h1 style="color: #333; margin-bottom: 40px; font-size: 32px;">Team Members</h1>
+    
+    <div style="margin-bottom: 40px;">
+        <ul style="list-style: none; padding: 0; max-width: 400px; margin: 0 auto;">
+            {% for nickname in team_nicknames %}
+            <li style="padding: 15px; margin-bottom: 10px; background: #f8f9fa; border-radius: 8px; font-size: 18px; color: #333;">
+                {{ nickname }}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    
+    <button id="abtest" data-variant="{{ variant }}" style="padding: 15px 40px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; font-size: 18px; font-weight: 600; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;">
+        {{ button_text }}
+    </button>
+</div>
+
+<style>
+    #abtest:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    }
+    
+    #abtest:active {
+        transform: translateY(0);
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const button = document.getElementById('abtest');
+        const variant = button.getAttribute('data-variant');
+        
+        button.addEventListener('click', function() {
+            // Track button click via AJAX
+            const formData = new FormData();
+            formData.append('variant', variant);
+            formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+            
+            fetch('{% url "abtest_button_click" %}', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Button click tracked:', data);
+            })
+            .catch(error => {
+                console.error('Error tracking button click:', error);
+            });
+        });
+    });
+</script>
+{% endblock %}
+

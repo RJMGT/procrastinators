@@ -53,3 +53,50 @@ class Dislike(models.Model):
     def __str__(self):
         return f"{self.user.username} disliked {self.post.title}"
 
+
+class ABTestPageView(models.Model):
+    """Model to track page views for the A/B test endpoint."""
+    VARIANT_CHOICES = [
+        ('A', 'Variant A (kudos)'),
+        ('B', 'Variant B (thanks)'),
+    ]
+    
+    variant = models.CharField(max_length=1, choices=VARIANT_CHOICES)
+    ip_address = models.GenericIPAddressField(null=True, blank=True)
+    user_agent = models.TextField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = 'A/B Test Page View'
+        verbose_name_plural = 'A/B Test Page Views'
+    
+    def __str__(self):
+        return f"Page view - Variant {self.variant} at {self.created_at}"
+
+
+class ABTestButtonClick(models.Model):
+    """Model to track button clicks for the A/B test."""
+    VARIANT_CHOICES = [
+        ('A', 'Variant A (kudos)'),
+        ('B', 'Variant B (thanks)'),
+    ]
+    
+    variant = models.CharField(max_length=1, choices=VARIANT_CHOICES)
+    ip_address = models.GenericIPAddressField(null=True, blank=True)
+    user_agent = models.TextField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = 'A/B Test Button Click'
+        verbose_name_plural = 'A/B Test Button Clicks'
+    
+    def __str__(self):
+        return f"Button click - Variant {self.variant} at {self.created_at}"
+    
+    @classmethod
+    def get_click_count_by_variant(cls, variant):
+        """Get total click count for a specific variant."""
+        return cls.objects.filter(variant=variant).count()
+

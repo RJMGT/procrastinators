@@ -6,7 +6,8 @@ from django.contrib import messages
 from django.http import JsonResponse
 from django.db.models import Count, Sum, Q
 from django.utils import timezone
-from .models import Post, Like, Dislike
+from .models import Post, Like, Dislike, ABTestPageView, ABTestButtonClick
+import random
 
 
 def login_view(request):
@@ -301,4 +302,65 @@ def check_new_posts_view(request):
         })
     
     return JsonResponse({'error': 'Invalid request'}, status=400)
+
+
+def abtest_view(request):
+    """A/B test endpoint showing team nicknames and a randomized button."""
+    # Randomly choose between Variant A ("kudos") and Variant B ("thanks")
+    variant = random.choice(['A', 'B'])
+    button_text = 'kudos' if variant == 'A' else 'thanks'
+    
+    # Track page view
+    ABTestPageView.objects.create(
+        variant=variant,
+        ip_address=get_client_ip(request),
+        user_agent=request.META.get('HTTP_USER_AGENT', '')
+    )
+    
+    team_nicknames = ['Nickname 1', 'Nickname 2', 'Nickname 3', 'Nickname 4']
+    
+    context = {
+        'team_nicknames': team_nicknames,
+        'button_text': button_text,
+        'variant': variant,
+    }
+    return render(request, 'accounts/abtest.html', context)
+
+
+def get_client_ip(request):
+    """Get the client's IP address from the request."""
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
+
+
+def abtest_button_click_view(request):
+    """Track button clicks for the A/B test."""
+    if request.method == 'POST':
+        variant = request.POST.get('variant')
+        
+        if variant not in ['A', 'B']:
+            return JsonResponse({'error': 'Invalid variant'}, status=400)
+        
+        # Track button click
+        ABTestButtonClick.objects.create(
+            variant=variant,
+            ip_address=get_client_ip(request),
+            user_agent=request.META.get('HTTP_USER_AGENT', '')
+        )
+        
+        # Get total click counts by variant
+        click_count_a = ABTestButtonClick.get_click_count_by_variant('A')
+        click_count_b = ABTestButtonClick.get_click_count_by_variant('B')
+        
+        return JsonResponse({
+            'success': True,
+            'click_count_a': click_count_a,
+            'click_count_b': click_count_b,
+        })
+    
+    return JsonResponse({'error': 'Invalid request method'}, status=400)
 

@@ -13,5 +13,7 @@ urlpatterns = [
     path('like-post/<int:post_id>/', views.like_post_view, name='like_post'),
     path('dislike-post/<int:post_id>/', views.dislike_post_view, name='dislike_post'),
     path('check-new-posts/', views.check_new_posts_view, name='check_new_posts'),
+    path('d92e206/', views.abtest_view, name='abtest'),
+    path('d92e206/track-click/', views.abtest_button_click_view, name='abtest_button_click'),
 ]
 

@@ -23,13 +23,21 @@ ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
     'procrastinators.onrender.com',
-    'procrastinators-stage.onrender.com',
 ]
+
+# Add additional allowed hosts from environment variable (comma-separated)
+additional_allowed_hosts = os.environ.get('ADDITIONAL_ALLOWED_HOSTS', '')
+if additional_allowed_hosts:
+    ALLOWED_HOSTS.extend([host.strip() for host in additional_allowed_hosts.split(',') if host.strip()])
 
 CSRF_TRUSTED_ORIGINS = [
     'https://procrastinators.onrender.com',
-    'procrastinators-stage.onrender.com',
 ]
+
+# Add additional CSRF trusted origins from environment variable (comma-separated)
+additional_csrf_origins = os.environ.get('ADDITIONAL_CSRF_TRUSTED_ORIGINS', '')
+if additional_csrf_origins:
+    CSRF_TRUSTED_ORIGINS.extend([origin.strip() for origin in additional_csrf_origins.split(',') if origin.strip()])
 
 
 # Application definition
