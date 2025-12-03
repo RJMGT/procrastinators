@@ -317,7 +317,7 @@ def abtest_view(request):
         user_agent=request.META.get('HTTP_USER_AGENT', '')
     )
     
-    team_nicknames = ['Nickname 1', 'Nickname 2', 'Nickname 3', 'Nickname 4']
+    team_nicknames = ['enthusiastic-partridge', 'sparkling-raccoon', 'aggressive-grouse', 'happy-stingray']
     
     context = {
         'team_nicknames': team_nicknames,
