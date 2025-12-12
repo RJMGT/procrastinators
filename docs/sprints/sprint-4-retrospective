@@ -1,0 +1,35 @@
+# Sprint 4 Retrospective
+
+**Team:** Rohan Johar, Aditi Jain, Gerald Velasquez Yantas, Aniket Aggarwal  
+**Sprint Duration:** Nov 30 to Dec 12
+
+---
+
+## ✅ What Went Well
+
+- **Final Deployment Success:** We successfully deployed our production application to Render (`/d92e206/` endpoint), along with a stable staging environment. This gave us a live demo link with stable uptime and functionality.
+- **High Code Quality:** Our codebase received a Pylint score of **9.53/10**, reflecting strong adherence to Python standards and overall clean, maintainable code.
+- **Team Coordination Improved:** Clear division of tasks and early alignment on ownership made this sprint smoother. Everyone picked up final deliverables without delay.
+- **Burndown & Velocity Charts:** Aniket’s velocity and burndown tracking gave us visibility into our workflow and helped pace our efforts well through the sprint.
+- **Button Analytics + A/B Testing:** We integrated basic analytics tracking via a button endpoint and conducted a lightweight A/B test to demonstrate usage-based experimentation.
+- **Updated Docs & Configs:** We finalized the README, YAML files, and other documentation in time for submission—even if these non-functional updates weren’t pushed to the live deployment.
+
+---
+
+## ⚠️ What Could’ve Gone Better
+
+- **Minor Linting Issues Remained:** Some unused variables and imports, as well as long lines, were flagged despite our high lint score. These were manually cleaned or ignored, but could be prevented earlier in development.
+- **Late Pushes to GitHub:** A few important updates (e.g., updated YAML files and documentation) were pushed on the last day and not deployed to the live links. This misalignment could confuse anyone reviewing only the app and not the repo.
+- **Limited Test Automation:** While we had manual testing coverage, automated testing (unit/component) was minimal. Earlier setup would have saved time and boosted confidence during final edits.
+- **A/B Test Could Be Deeper:** Though we implemented the experiment, time constraints meant limited user sample and basic analysis. A future iteration could include richer insights and dashboards.
+
+---
+
+## 💡 Lessons Learned
+
+- **Push and Deploy Together:** All final updates, even if non-user-facing, should be deployed when mentioned in final reports to maintain transparency and avoid inconsistencies.
+- **Plan Early, Assign Clearly:** Gerald’s early planning for Sprint 4 was extremely helpful. Clearly assigned owners and milestones helped reduce ambiguity and avoid bottlenecks.
+- **Prioritize Automated Testing:** Investing in a test suite early on would have made QA cycles faster and more reliable—especially as we approached the final sprint.
+- **Documentation Is a Deliverable:** Ensuring updated ReadMe files, clear deployment instructions, and structured repo folders helped polish the final submission and make it easier to demo, debug, or hand off.
+
+---
