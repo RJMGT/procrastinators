@@ -4,3 +4,10 @@ gunicorn>=21.2.0
 whitenoise>=6.6.0
 dj-database-url>=2.1.0
 
+# Linting and code quality tools
+flake8>=6.1.0
+black>=23.12.0
+isort>=5.13.0
+pylint-django>=2.5.3
+pylint>=3.0.0
+

@@ -1,0 +1,54 @@
+[tool.black]
+line-length = 88
+target-version = ['py311']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | venv
+  | _build
+  | buck-out
+  | build
+  | dist
+  | migrations
+  | staticfiles
+)/
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 88
+skip = ["migrations", "venv", "env", "staticfiles"]
+known_django = "django"
+known_first_party = ["accounts", "procrast_local"]
+sections = ["FUTURE", "STDLIB", "DJANGO", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
+skip_glob = ["*/migrations/*"]
+
+[tool.pylint.main]
+load-plugins = ["pylint_django"]
+ignore = ["migrations", "venv", "env", "staticfiles"]
+ignore-patterns = [
+    "migrations/.*",
+    ".*/migrations/.*",
+]
+
+[tool.pylint.django]
+settings-module = "procrast_local.settings"
+
+[tool.pylint.format]
+max-line-length = 88
+
+[tool.pylint."messages control"]
+disable = [
+    "C0111",  # missing-docstring
+    "C0103",  # invalid-name (for settings variables)
+    "R0903",  # too-few-public-methods
+    "R0913",  # too-many-arguments
+]
+

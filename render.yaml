@@ -1,9 +1,21 @@
 services:
+  # PostgreSQL Database
+  - type: pspg
+    name: procrast-local-db
+    databaseName: procrast_local_db
+    user: procrast_local_user
+    plan: free
+    postgresMajorVersion: 15
+
+  # Django Web Service
   - type: web
     name: procrast-local
     env: python
-    buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput
-    startCommand: gunicorn procrast_local.wsgi:application
+    plan: free
+    region: oregon
+    buildCommand: pip install -r requirements.txt && python manage.py migrate --noinput && python manage.py collectstatic --noinput
+    startCommand: gunicorn procrast_local.wsgi:application --bind 0.0.0.0:$PORT
+    healthCheckPath: /
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.0
@@ -13,16 +25,9 @@ services:
         generateValue: true
       - key: DATABASE_URL
         fromDatabase:
-          name: dev_postgres_test
+          name: procrast-local-db
           property: connectionString
-      - key: POSTGRES_DB
-        sync: false
-      - key: POSTGRES_USER
-        sync: false
-      - key: POSTGRES_PASSWORD
-        sync: false
-      - key: POSTGRES_HOST
-        sync: false
-      - key: POSTGRES_PORT
-        value: 5432
-
+      - key: ALLOWED_HOSTS
+        value: procrastinators.onrender.com
+      - key: CSRF_TRUSTED_ORIGINS
+        value: https://procrastinators.onrender.com
